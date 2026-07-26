@@ -1,0 +1,23 @@
+{
+  "name": "agent-proof",
+  "version": "0.1.0",
+  "description": "A safe, evidence-first verification harness for coding-agent work.",
+  "license": "MIT",
+  "bin": {
+    "agent-proof": "dist/src/cli.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "lint": "tsc --noEmit -p tsconfig.json",
+    "test": "npm run build && node --test dist/test/**/*.test.js",
+    "example": "npm run build && node dist/src/cli.js run examples/manifest.json --out evidence"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

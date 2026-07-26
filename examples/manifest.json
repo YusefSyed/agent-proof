@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "task": "Verify the local TypeScript project before review",
+  "allowedCommands": ["npm", "node"],
+  "maxOutputChars": 12000,
+  "checks": [
+    {
+      "id": "typecheck",
+      "command": "npm",
+      "args": ["run", "typecheck"],
+      "timeoutMs": 60000
+    },
+    {
+      "id": "unit-tests",
+      "command": "npm",
+      "args": ["test"],
+      "timeoutMs": 120000
+    }
+  ]
+}
