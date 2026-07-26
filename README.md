@@ -1,5 +1,7 @@
 # Agent Proof
 
+[![CI](https://github.com/YusefSyed/agent-proof/actions/workflows/ci.yml/badge.svg)](https://github.com/YusefSyed/agent-proof/actions/workflows/ci.yml)
+
 Agent Proof is a small TypeScript CLI that turns an engineering verification plan into reviewable evidence. It is designed for teams using coding agents who still want the normal discipline: a human selects the checks, reviews the changes, and can inspect the exact verification result.
 
 It does not call an AI service, send code anywhere, or require a secret. Its output is local JSON and Markdown evidence, suitable for a pull request, release checklist, or audit trail.
