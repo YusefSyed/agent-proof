@@ -7,7 +7,7 @@ const DEFAULT_TIMEOUT_MS = 30_000;
 const DEFAULT_MAX_OUTPUT_CHARS = 12_000;
 const BUILT_IN_REDACTIONS = [
   /(?:api[_-]?key|token|password|secret)\s*[=:]\s*[^\s"']+/gi,
-  /(?:sk|ghp)_[A-Za-z0-9_-]{8,}/g,
+  /(?:sk(?:-proj)?|gh[pousr])[-_][A-Za-z0-9_-]{8,}/g,
 ];
 
 function redact(value: string, custom: string[]): string {

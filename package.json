@@ -2,14 +2,29 @@
   "name": "agent-proof",
   "version": "0.1.0",
   "description": "A safe, evidence-first verification harness for coding-agent work.",
+  "private": true,
   "license": "MIT",
+  "author": "Yusef Syed",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YusefSyed/agent-proof.git"
+  },
+  "homepage": "https://github.com/YusefSyed/agent-proof#readme",
+  "bugs": {
+    "url": "https://github.com/YusefSyed/agent-proof/issues"
+  },
+  "keywords": [
+    "ai-agents",
+    "developer-tools",
+    "testing",
+    "verification"
+  ],
   "bin": {
     "agent-proof": "dist/src/cli.js"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "lint": "tsc --noEmit -p tsconfig.json",
     "test": "npm run build && node --test dist/test/**/*.test.js",
     "example": "npm run build && node dist/src/cli.js run examples/manifest.json --out evidence"
   },

@@ -33,8 +33,8 @@ test("does not run commands outside the allowlist", async () => {
 
 test("redacts configured secrets and truncates output", async () => {
   const manifest: Manifest = { ...base, redact: ["private-value"], maxOutputChars: 20 };
-  const result = await runCheck({ id: "redact", command: "node", args: ["-e", "console.log('private-value api_key=also-secret 12345678901234567890')"] }, manifest, process.cwd());
+  const result = await runCheck({ id: "redact", command: "node", args: ["-e", "console.log('private-value api_key=also-secret sk-proj-example123456 12345678901234567890')"] }, manifest, process.cwd());
   assert.equal(result.status, "passed");
-  assert.doesNotMatch(result.stdout, /private-value|also-secret/);
+  assert.doesNotMatch(result.stdout, /private-value|also-secret|sk-proj-example123456/);
   assert.match(result.stdout, /REDACTED|TRUNCATED/);
 });

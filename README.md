@@ -2,37 +2,47 @@
 
 [![CI](https://github.com/YusefSyed/agent-proof/actions/workflows/ci.yml/badge.svg)](https://github.com/YusefSyed/agent-proof/actions/workflows/ci.yml)
 
-Agent Proof is a small TypeScript CLI that turns an engineering verification plan into reviewable evidence. It is designed for teams using coding agents who still want the normal discipline: a human selects the checks, reviews the changes, and can inspect the exact verification result.
+Agent Proof is a small TypeScript CLI for recording the checks run after an agent-assisted code change. A reviewer chooses the commands; Agent Proof runs them and writes local JSON and Markdown reports.
 
-It does not call an AI service, send code anywhere, or require a secret. Its output is local JSON and Markdown evidence, suitable for a pull request, release checklist, or audit trail.
+It has no runtime dependencies, does not call an AI service and does not send code anywhere.
 
-## What it proves
+## What it records
 
-For every requested check, Agent Proof records the command and arguments, working directory, status, exit code, duration, stdout, and stderr. It also produces an overall pass/fail result. This is evidence that AI-assisted work was verified; it is not a substitute for human review, security assessment, or a sandbox.
+For each check, the report includes:
 
-## Safety model
+- command and arguments
+- working directory
+- status and exit code
+- duration
+- captured stdout and stderr
+- overall pass/fail status
 
-- Commands are executed with Node's `execFile`, with `shell: false`. Arguments are passed as an array, so manifest values are never interpolated into a shell command.
-- A check runs only when its executable name appears exactly in `allowedCommands`.
-- Each check has a timeout (30 seconds by default) and a 1 MiB process buffer.
-- Output is redacted before writing reports. Built-in patterns cover common `api_key=`, token, password, secret, `sk_`, and `ghp_` values; add exact project-specific values under `redact`.
-- Output is truncated to 12,000 characters by default. Choose allowlisted commands and manifests you trust: this tool deliberately executes the verification checks the reviewer has approved.
+The report proves only that those commands ran in that environment. It does not prove that the implementation is correct or replace code review, security analysis or product testing.
+
+## Safety boundaries
+
+- Uses Node's `execFile` with `shell: false`; arguments are never interpolated into a shell command.
+- Runs a command only when its executable appears exactly in `allowedCommands`.
+- Applies a 30-second timeout and 1 MiB process buffer by default.
+- Redacts common credential formats and exact project-specific values before writing reports.
+- Truncates captured output to 12,000 characters by default.
+
+Agent Proof is not a sandbox. Use it only with trusted manifests, commands, working directories and environments. Do not place credentials in arguments or intentionally print an environment containing secrets.
 
 ## Quick start
 
 ```bash
-npm install
+npm ci
 npm run example
 cat evidence/evidence.md
 ```
 
-Or run a manifest directly:
+To run a manifest directly:
 
 ```bash
-npx agent-proof run examples/manifest.json --out evidence
+npm run build
+node dist/src/cli.js run examples/manifest.json --out evidence
 ```
-
-The CLI exits `0` only if every check passes; failed, timed-out, or disallowed checks produce reports and exit `1`. Invalid invocation or manifest parsing errors exit `2`.
 
 ## Manifest
 
@@ -56,7 +66,7 @@ The CLI exits `0` only if every check passes; failed, timed-out, or disallowed c
 }
 ```
 
-Keep allowlists narrow. For example, use `npm` rather than a broad shell command, and do not place credentials in command arguments or environment output. `cwd`, if provided, is resolved by Node relative to the process running Agent Proof.
+Keep allowlists narrow. `cwd`, when provided, is resolved by Node relative to the process running Agent Proof.
 
 ## Reports
 
@@ -65,12 +75,15 @@ The selected output directory receives:
 - `evidence.json` — machine-readable evidence report.
 - `evidence.md` — a reviewer-friendly report with each command's result and captured output.
 
+The CLI exits `0` when every check passes, `1` when a check fails, times out or is disallowed, and `2` for invalid input or invocation.
+
 ## Development
 
 ```bash
-npm run lint
+npm ci
 npm run typecheck
 npm test
+npm audit
 ```
 
 The test suite covers passing and failing checks, timeouts, disallowed commands, and redaction/truncation. GitHub Actions runs the same verification on pushes and pull requests.
