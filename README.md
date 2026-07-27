@@ -6,6 +6,14 @@ Agent Proof is a small TypeScript CLI for recording the checks run after an agen
 
 It has no runtime dependencies, does not call an AI service and does not send code anywhere.
 
+## Availability
+
+Version `0.1.0` is intended to be cloned and run from source; it is not a published npm package. Its [`package.json`](package.json) has `"private": true`, so npm will not publish this checkout.
+
+## Current verification
+
+The dated [verification record](docs/verification-2026-07-27.md) documents the commands run against this checkout on 2026-07-27: typechecking passed, all five tests passed, and the production-dependency audit reported zero vulnerabilities. It is a point-in-time record, not a claim about future clones, dependencies, or environments.
+
 ## What it records
 
 For each check, the report includes:
@@ -76,6 +84,18 @@ The selected output directory receives:
 - `evidence.md` — a reviewer-friendly report with each command's result and captured output.
 
 The CLI exits `0` when every check passes, `1` when a check fails, times out or is disallowed, and `2` for invalid input or invocation.
+
+### Sample evidence excerpt
+
+This is the kind of concise result a reviewer sees in a generated report (values vary by run):
+
+```text
+## typecheck: PASSED
+- Command: `npm run typecheck`
+- Exit code: 0
+```
+
+The complete generated report includes the working directory, duration, stdout, and stderr; review it before relying on a result.
 
 ## Development
 
