@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/YusefSyed/agent-proof/actions/workflows/ci.yml/badge.svg)](https://github.com/YusefSyed/agent-proof/actions/workflows/ci.yml)
 
-Agent Proof is a small TypeScript CLI for recording the checks run after an agent-assisted code change. A reviewer chooses the commands; Agent Proof runs them and writes local JSON and Markdown reports.
+Agent Proof is a small TypeScript CLI for recording the checks run after a code change. A reviewer chooses the commands; Agent Proof runs them and writes local JSON and Markdown reports.
 
 It has no runtime dependencies, does not call an AI service and does not send code anywhere.
 
@@ -12,7 +12,7 @@ Version `0.1.0` is intended to be cloned and run from source; it is not a publis
 
 ## Current verification
 
-The dated [verification record](docs/verification-2026-07-27.md) documents the commands run against this checkout on 2026-07-27: typechecking passed, all five tests passed, and the production-dependency audit reported zero vulnerabilities. It is a point-in-time record, not a claim about future clones, dependencies, or environments.
+The dated [verification record](docs/verification-2026-09-24.md) documents the commands run against this checkout on 2026-09-24: typechecking passed, all five tests passed, and the production-dependency audit reported zero vulnerabilities. It is a point-in-time record, not a claim about future clones, dependencies, or environments.
 
 ## What it records
 
